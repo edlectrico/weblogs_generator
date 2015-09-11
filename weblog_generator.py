@@ -1,11 +1,19 @@
 import time
 import datetime
+from datetime import timedelta
 import random
 from random import randint
+from randome import randrange
 
 # Log example (as in https://en.wikipedia.org/wiki/Common_Log_Format)
 # 127.0.0.1 user-identifier frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
 # client_address client_rfc user_id [%d/%b/%Y:%H:%M:%S %z] "request" http_retured_status_code returned_item_size
+
+# Generate a randome date between two specific dates
+def random_date(start, end):
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = randrange(int_delta)
+    return start + timedelta(seconds=random_second)
 
 # pick a random row from file
 def random_line(file):
