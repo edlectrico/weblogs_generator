@@ -65,12 +65,14 @@ f = open('access_log_' + timestr + '.log','w')
 while True:
   ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
   date = str(random_date(initial_date, final_date))
+  date = date.replace(" ", ":").replace("-", "/")
   resource = str(random.choice(resources))
   request = "GET " + resource
   response = str(random.choice(http_responses))
   response_bytes = str(random.randint(2000,5000))
   referer = str(random.choice(referers))
-  user_agent = str(random.choice(random.choice(all_user_agents)))
+  user_agent = str(random.choice(random.choice(all_user_agents))).split("\n")[0]
 
   # print ip, date, request, response, response_bytes, referer, user_agent
-  f.write(ip + ' ' + date + ' ' +  request + ' ' + response + ' ' + response_bytes + ' ' + referer + ' ' + user_agent)
+  f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+
