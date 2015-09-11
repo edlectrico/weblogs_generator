@@ -1,69 +1,76 @@
+from datetime import timedelta, datetime
+import os
 import time
-import datetime
-from datetime import timedelta
 import random
-from random import randint
-from randome import randrange
+from random import randint, randrange
+import requests
+import glob
 
-# Log example (as in https://en.wikipedia.org/wiki/Common_Log_Format)
-# 127.0.0.1 user-identifier frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
-# client_address client_rfc user_id [%d/%b/%Y:%H:%M:%S %z] "request" http_retured_status_code returned_item_size
+timestr = time.strftime("%Y%m%d-%H%M%S")
+otime = datetime(2015, 9, 11, 10, 39, 40)
+timestr =  time.strftime("%Y%m%d-%H%M%S", otime.timetuple())
+
+http_responses = [200, 400, 403, 404, 500]
+referers = 	['http://www.rankia.com/', 
+		'http://www.elblogsalmon.com/', 
+		'http://www.finanzas.com/',
+		'http://www.bankimia.com/',
+		'http://www.elconfidencial.com/mercados/',
+		'http://www.invertia.com/',
+		'http://cincodias.com/',
+		'http://www.expansion.com/',
+		'http://www.eleconomista.es/'
+		]
 
 # Generate a randome date between two specific dates
+# Usage:
+# d1 = datetime.strptime('1/1/2008 1:30 PM', '%m/%d/%Y %I:%M %p')
+# d2 = datetime.strptime('1/1/2009 4:50 AM', '%m/%d/%Y %I:%M %p')
+# print random_date(d1, d2)
 def random_date(start, end):
-    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
-    random_second = randrange(int_delta)
-    return start + timedelta(seconds=random_second)
+  delta = end - start
+  int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+  random_second = randrange(int_delta)
+  return start + timedelta(seconds=random_second)
+
+initial_date = datetime.strptime('1/1/2015 1:00 PM', '%m/%d/%Y %I:%M %p')
+final_date = datetime.strptime('9/30/2015 6:00 PM', '%m/%d/%Y %I:%M %p')
 
 # pick a random row from file
 def random_line(file):
-    line = next(file)
-    for num, aline in enumerate(file):
-      if random.randrange(num + 2): continue
-      line = aline
-    return line
+  line = next(file)
+  for num, aline in enumerate(file):
+    if random.randrange(num + 2): continue
+    line = aline
+  return line
 
-timestr = time.strftime("%Y%m%d-%H%M%S")
-# num_clicks = 500
+# Get all resources from specified website
+page = requests.get('https://www.bbva.es/particulares/index.jsp')
+# tree = html.fromstring(page.text)
+source = page.text
+resources = []
+a = source.split('href="')
+for href in a:
+  resources.append(href.split('"')[0])
+resources = resources[1:]
 
-otime = datetime.datetime(2014, 10, 10, 0, 0, 0)
-timestr =  time.strftime("%Y%m%d-%H%M%S", otime.timetuple())
+user_agents_dir = "user_agents/"
+useragents_list = glob.glob(user_agents_dir + '*.txt')
+all_user_agents = []
+for file in useragents_list:
+    all_user_agents.append(open(file, 'r').readlines())
 
 f = open('access_log_' + timestr + '.log','w')
 
-user_agents_dir = "user_agents/"
-#stock_list = [x[0] for x in os.walk(statspath)]
-for each_dir in 
+while True:
+  ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
+  date = str(random_date(initial_date, final_date))
+  resource = str(random.choice(resources))
+  request = "GET " + resource
+  response = str(random.choice(http_responses))
+  response_bytes = str(random.randint(2000,5000))
+  referer = str(random.choice(referers))
+  user_agent = str(random.choice(random.choice(all_user_agents)))
 
-files = os.
-
-# IPv4 addresses are canonically represented in dot-decimal notation, 
-# which consists of four decimal numbers, each ranging from 0 to 255, separated by dots
-# ip[0] = 10..255 (just because we don't want ips like 0.145.12.155)
-ip= randint(10,255) + '.' + randint(0,255) + '.' + randint(0,255) + '.' + randint(0,255)
-
-
-single_visit_ip=["10.181.198.78", ]
-referers=["-","http://www.casualcyclist.com","http://bestcyclingreviews.com/top_online_shops","http://bleater.com","http://searchengine.com"]
-resources=["/handle-bars","/stems","/wheelsets","/forks","/seatposts","/saddles","/shifters","/Store/cart.jsp?productID="]
-useragents=["Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36","Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1","Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25","Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201","Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0","Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))"]
-
-# Generate times during the day for which we click
-times=[]
-for i in xrange(0,num_clicks):
-       seconds = datetime.timedelta(seconds=random.randint(0,86399))
-       times.append(seconds)
-
-# Then, sort them. We do this because we want a random distribution of clicks during the day but since random() is
-# not sorted, we sort them afterwards.
-times.sort()
-
-# Now we randomly pick other columns, combine them one by one with our sorted list of times and write it to a file
-for i in xrange(0,num_clicks):
-        uri = random.choice(resources)
-        if uri.find("Store")>0:
-                uri += `random.randint(1000,1500)`
-        ip = random.choice(ips)
-        useragent = random.choice(useragents)
-        referer = random.choice(referers)
-        f.write('%s - - [%s] "GET %s HTTP/1.0" 200 %s "%s" "%s"\n' % (random.choice(ips),(otime+times[i]).strftime('%d/%b/%Y:%H:%M:%S %z'),uri,random.randint(2000,5000),referer,useragent))
+  # print ip, date, resource, request, response, response_bytes, referer, user_agent
+  f.write(ip + ' ' + date + ' ' + resource + ' ' + request + ' ' + response + ' ' + response_bytes + ' ' + referer + ' ' + user_agent)
