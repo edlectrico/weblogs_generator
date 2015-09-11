@@ -72,5 +72,5 @@ while True:
   referer = str(random.choice(referers))
   user_agent = str(random.choice(random.choice(all_user_agents)))
 
-  # print ip, date, resource, request, response, response_bytes, referer, user_agent
-  f.write(ip + ' ' + date + ' ' + resource + ' ' + request + ' ' + response + ' ' + response_bytes + ' ' + referer + ' ' + user_agent)
+  # print ip, date, request, response, response_bytes, referer, user_agent
+  f.write(ip + ' ' + date + ' ' +  request + ' ' + response + ' ' + response_bytes + ' ' + referer + ' ' + user_agent)
