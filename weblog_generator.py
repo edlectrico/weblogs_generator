@@ -68,7 +68,7 @@ f = open('access_log_' + timestr + '.log','w')
 while True:
   ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
   date = str(random_date(initial_date, final_date))
-  date = date.replace(" ", ":").replace("-", "/")
+  date = date.replace(" ", ":").replace("-", "/").split(' ')[0]
   resource = str(random.choice(resources))
   request = "GET " + resource
   response = str(random.choice(http_responses))
