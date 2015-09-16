@@ -63,7 +63,8 @@ all_user_agents = []
 for file in useragents_list:
     all_user_agents.append(open(file, 'r').readlines())
 
-f = open('access_log_' + timestr + '.log','w')
+# f = open('access_log_' + timestr + '.log','w')
+f = open('out_log.log', 'w')
 
 while True:
   ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
