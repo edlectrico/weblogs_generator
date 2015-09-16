@@ -9,6 +9,7 @@ for line in f:
   request = line.split('"', 1)[1].split('"')[0]
   response_http = line.split('" ', 1)[1].split(' ')[0]
   response_bytes = line.split('" ')[1].split(' ')[1]
+  referer = line.split(' "')[2].replace('"', '')
 
-  print ip, date, request, response_http, response_bytes
+  print ip, date, request, response_http, response_bytes, referer
 
