@@ -19,7 +19,10 @@ referers = 	['http://www.rankia.com/',
 		'http://www.invertia.com/',
 		'http://cincodias.com/',
 		'http://www.expansion.com/',
-		'http://www.eleconomista.es/'
+		'http://www.eleconomista.es/',
+		'https://www.facebook.com',
+		'https://www.twitter.com',
+		'https://www.linkedin.com'
 		]
 
 # Generate a randome date between two specific dates
