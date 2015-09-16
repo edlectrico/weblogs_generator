@@ -18,6 +18,8 @@ for line in f:
 
   df.loc[len(df)+1]=[ip, date, request, response_http, response_bytes, referer, user_agent]
 
+  # print 'Inserting in df[' + str(len(df)) + ']'
+
 df.to_csv('weblogs.csv')
 print df
 
