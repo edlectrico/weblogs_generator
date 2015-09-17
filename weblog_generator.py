@@ -25,30 +25,9 @@ referers = 	['http://www.rankia.com/',
 		'https://www.twitter.com/',
 		'https://www.linkedin.com/'
 		]
-'''
-# Generate a randome date between two specific dates
-# Usage:
-# d1 = datetime.strptime('1/1/2008 1:30 PM', '%m/%d/%Y %I:%M %p')
-# d2 = datetime.strptime('1/1/2009 4:50 AM', '%m/%d/%Y %I:%M %p')
-# print random_date(d1, d2)
-def random_date(start, end):
-  delta = end - start
-  int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
-  random_second = randrange(int_delta)
-  return start + timedelta(seconds=random_second)
-'''
 
 initial_date = datetime.strptime('1/1/2015 1:00 PM', '%m/%d/%Y %I:%M %p')
 final_date = datetime.strptime('9/30/2015 6:00 PM', '%m/%d/%Y %I:%M %p')
-'''
-# pick a random row from file
-def random_line(file):
-  line = next(file)
-  for num, aline in enumerate(file):
-    if random.randrange(num + 2): continue
-    line = aline
-  return line
-'''
 
 # Get all resources from specified website
 page = requests.get('https://www.bbva.es/particulares/index.jsp')
