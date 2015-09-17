@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import sys
 
 f = open('out_log.log', 'r')
 
@@ -7,7 +8,8 @@ df = pd.DataFrame(columns = ['IP','Date','Request','Response HTTP','Response in 
 
 counter = 0
 for line in f:
-  if counter < 15000:
+  #if counter < 15000:
+  try:
     ip = re.search(r'\d{1,255}\.\d{1,255}\.\d{1,255}\.\d{1,255}', line).group()
     # date = line.split('[', 1)[1].split(']')[0]
     date = re.match(r"[^[]*\[([^]]*)\]", line).groups()[0]
@@ -17,7 +19,7 @@ for line in f:
     referer = line.split(' "')[2].replace('"', ' ')
     # user_agent = line.split(' "')[3].replace('"', ' ').replace(',', ' ')
     user_agent = line.split('"')[-2]
-    print user_agent
+    # print user_agent
 
     df.append({'IP':str(ip),'Date':str(date), 'Request':str(request), 'Response HTTP':str(response_http), 'Response in bytes':str(response_bytes), 'Referer':str(referer), 'User Agent':user_agent}, ignore_index = True)
 
@@ -26,6 +28,10 @@ for line in f:
     counter = counter + 1
 
   # print 'Inserting in df[' + str(len(df)) + ']'
+  except KeyboardInterrupt:
+    print 'KeyboardInterrupt exception raised. Generating weblogs.csv...'
+    df.to_csv('weblogs.csv')
+    sys.exit()
 
 df.to_csv('weblogs.csv')
 # print df
