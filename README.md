@@ -17,7 +17,8 @@ So now you have a weblogs.csv file in your project folder.
 To cancel both scripts you can use Ctrl+C. Otherwise the random generation of the logs won't ever end! 
 
 
-Remember to install the requests package with pip:
+Remember to install 'pandas' and 'requests' Python packages:
 ```
+$ pip install pandas
 $ pip install requests
 ```
