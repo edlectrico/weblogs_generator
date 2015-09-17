@@ -18,7 +18,7 @@ So now you have a weblogs.csv file in your project folder.
 To cancel both scripts you can use Ctrl+C. Otherwise the random generation of the logs won't ever end! 
 
 
-Remember to install 'pandas' and 'requests' Python packages:
+Remember to install the following Python packages (geoip and geolite2 are just needed for the ip geolocation script):
 ```
 $ pip install pandas
 $ pip install requests
