@@ -1,3 +1,8 @@
+# output and generated files
+*.log
+*-log~
+*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -22,6 +27,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Swap files
+*.swp
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
