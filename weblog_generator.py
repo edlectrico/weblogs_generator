@@ -4,6 +4,7 @@ import time
 from random import randint, choice
 import requests
 import glob
+import sys
 
 import utils as u
 
@@ -51,13 +52,14 @@ for file in useragents_list:
 f = open('out_log.log', 'w')
 
 while True:
-  ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
-  date = str(u.random_date(initial_date, final_date))
-  date = date.replace(" ", ":").replace("-", "/").split(' ')[0]
-  resource = str(choice(resources))
-  request = "GET " + resource
-  # response = str(random.choice(http_responses)) # [200, 400, 403, 404, 500]
-  response = str(u.weighted_choice([	
+  try:
+    ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
+    date = str(u.random_date(initial_date, final_date))
+    date = date.replace(" ", ":").replace("-", "/").split(' ')[0]
+    resource = str(choice(resources))
+    request = "GET " + resource
+    # response = str(random.choice(http_responses)) # [200, 400, 403, 404, 500]
+    response = str(u.weighted_choice([	
 				(http_responses[0], 90), 
 				(http_responses[1], 10), 
 				(http_responses[2], 40), 
@@ -65,9 +67,9 @@ while True:
 				(http_responses[4], 50)
 			     ]))
 
-  response_bytes = str(randint(2000,5000))
-  # referer = str(choice(referers))
-  referer = str(u.weighted_choice([
+    response_bytes = str(randint(2000,5000))
+    # referer = str(choice(referers))
+    referer = str(u.weighted_choice([
 			(referers[0], 20),
                         (referers[1], 40),
                         (referers[2], 50),
@@ -81,7 +83,13 @@ while True:
                         (referers[10],15),
                         (referers[11],15),
 			]))
-  user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
+    user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
 
-  # print ip, date, request, response, response_bytes, referer, user_agent
-  f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+    # print ip, date, request, response, response_bytes, referer, user_agent
+    f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+
+  except KeyboardInterrupt:
+    print 'KeyboradInterrupt exception raised: Generating out_log...'
+    f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+    sys.exit()
+
