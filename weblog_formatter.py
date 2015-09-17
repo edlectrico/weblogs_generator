@@ -21,7 +21,7 @@ for line in f:
     user_agent = line.split('"')[-2]
     # print user_agent
 
-    df.append({'IP':str(ip),'Date':str(date), 'Request':str(request), 'Response HTTP':str(response_http), 'Response in bytes':str(response_bytes), 'Referer':str(referer), 'User Agent':user_agent}, ignore_index = True)
+    # df.append({'IP':str(ip),'Date':str(date), 'Request':str(request), 'Response HTTP':str(response_http), 'Response in bytes':str(response_bytes), 'Referer':str(referer), 'User Agent':user_agent}, ignore_index = True)
 
     df.loc[len(df)+1]=[ip, date, request, response_http, response_bytes, referer, user_agent]
     
