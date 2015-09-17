@@ -37,7 +37,8 @@ source = page.text
 resources = []
 a = source.split('href="')
 for href in a:
-  resources.append(href.split('"')[0])
+  if ('.html' in href) or ('.jsp' in href):
+    resources.append(href.split('"')[0])
 resources = resources[1:]
 
 user_agents_dir = "user_agents/"
