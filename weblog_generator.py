@@ -12,6 +12,7 @@ otime = datetime(2015, 9, 11, 10, 39, 40)
 timestr =  time.strftime("%Y%m%d-%H%M%S", otime.timetuple())
 
 http_responses = [200, 400, 403, 404, 500]
+
 referers = 	['http://www.rankia.com/', 
 		'http://www.elblogsalmon.com/', 
 		'http://www.finanzas.com/',
@@ -64,7 +65,21 @@ while True:
 			     ]))
 
   response_bytes = str(randint(2000,5000))
-  referer = str(choice(referers))
+  # referer = str(choice(referers))
+  referer = str(u.weighted_choice([
+			(referers[0], 20),
+                        (referers[1], 40),
+                        (referers[2], 50),
+                        (referers[3], 30),
+                        (referers[4], 30),
+                        (referers[5], 20),
+                        (referers[6], 50),
+                        (referers[7], 40),
+                        (referers[8], 40),
+                        (referers[9], 15),
+                        (referers[10],15),
+                        (referers[11],15),
+			]))
   user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
 
   # print ip, date, request, response, response_bytes, referer, user_agent
