@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import time
+from time import gmtime, strftime
 from random import randint, choice
 import requests
 import glob
@@ -49,7 +50,11 @@ for file in useragents_list:
     all_user_agents.append(open(file, 'r').readlines())
 
 # f = open('access_log_' + timestr + '.log','w')
-f = open('out_log.log', 'w')
+# f = open('out_log.log', 'w')
+
+current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
+f = open(current_time + '.log', 'w')
+rows = 0
 
 while True:
   try:
@@ -86,7 +91,14 @@ while True:
     user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
 
     # print ip, date, request, response, response_bytes, referer, user_agent
-    f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+    if (rows % 10 == 0): # row count mod 10 is 0
+      f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+      rows += 1
+      current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
+      f = open(current_time + '.log', 'w')
+    else: 
+      f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+      rows += 1
 
   except KeyboardInterrupt:
     print 'KeyboradInterrupt exception raised: Generating out_log...'
