@@ -9,9 +9,15 @@ import sys
 
 import utils as u
 
+# This code was initially used to generate the
+# date for the namefile
+'''
 timestr = time.strftime("%Y%m%d-%H%M%S")
 otime = datetime(2015, 9, 11, 10, 39, 40)
 timestr =  time.strftime("%Y%m%d-%H%M%S", otime.timetuple())
+
+f = open('access_log_' + timestr + '.log','w')
+'''
 
 http_responses = [200, 400, 403, 404, 500]
 
@@ -49,7 +55,6 @@ all_user_agents = []
 for file in useragents_list:
     all_user_agents.append(open(file, 'r').readlines())
 
-# f = open('access_log_' + timestr + '.log','w')
 # f = open('out_log.log', 'w')
 
 current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
