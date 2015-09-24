@@ -19,9 +19,11 @@ timestr =  time.strftime("%Y%m%d-%H%M%S", otime.timetuple())
 f = open('access_log_' + timestr + '.log','w')
 '''
 
-http_responses = [200, 400, 403, 404, 500]
+def main(argv):
 
-referers = 	['http://www.rankia.com/', 
+  http_responses = [200, 400, 403, 404, 500]
+
+  referers = 	['http://www.rankia.com/', 
 		'http://www.elblogsalmon.com/', 
 		'http://www.finanzas.com/',
 		'http://www.bankimia.com/',
@@ -35,41 +37,45 @@ referers = 	['http://www.rankia.com/',
 		'https://www.linkedin.com/'
 		]
 
-initial_date = datetime.strptime('1/1/2015 1:00 PM', '%m/%d/%Y %I:%M %p')
-final_date = datetime.strptime('9/30/2015 6:00 PM', '%m/%d/%Y %I:%M %p')
+  # initial_date = datetime.strptime('09/24/2015 12:00 AM', '%m/%d/%Y %I:%M %p')
+  # final_date = datetime.strptime('9/24/2015 11:59 PM', '%m/%d/%Y %I:%M %p')
 
-# Get all resources from specified website
-page = requests.get('https://www.bbva.es/particulares/index.jsp')
-# tree = html.fromstring(page.text)
-source = page.text
-resources = []
-a = source.split('href="')
-for href in a:
-  if ('.html' in href) or ('.jsp' in href):
-    resources.append(href.split('"')[0])
-resources = resources[1:]
+  # Get all resources from specified website
+  page = requests.get('https://www.bbva.es/particulares/index.jsp')
+  # tree = html.fromstring(page.text)
+  source = page.text
+  resources = []
+  a = source.split('href="')
+  for href in a:
+    if ('.html' in href) or ('.jsp' in href):
+      resources.append(href.split('"')[0])
+  resources = resources[1:]
 
-user_agents_dir = "user_agents/"
-useragents_list = glob.glob(user_agents_dir + '*.txt')
-all_user_agents = []
-for file in useragents_list:
+  user_agents_dir = "user_agents/"
+  useragents_list = glob.glob(user_agents_dir + '*.txt')
+  all_user_agents = []
+  for file in useragents_list:
     all_user_agents.append(open(file, 'r').readlines())
 
-# f = open('out_log.log', 'w')
+  # f = open('out_log.log', 'w')
 
-current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
-f = open(current_time + '.log', 'w')
-rows = 0
+  current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
+  f = open(current_time + '.log', 'w')
+  rows = 0
 
-while True:
-  try:
-    ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
-    date = str(u.random_date(initial_date, final_date))
-    date = date.replace(" ", ":").replace("-", "/").split(' ')[0]
-    resource = str(choice(resources))
-    request = "GET " + resource
-    # response = str(random.choice(http_responses)) # [200, 400, 403, 404, 500]
-    response = str(u.weighted_choice([	
+  d1 = datetime.strptime(str(argv[0]) + ' 12:00 AM', '%m/%d/%Y %I:%M %p')
+  d2 = datetime.strptime(str(argv[0]) + ' 11:59 PM', '%m/%d/%Y %I:%M %p')
+
+  while True:
+    try:
+      ip = str(randint(10,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255)) + '.' + str(randint(0,255))
+      # date = str(u.random_date(initial_date, final_date))
+      date = str(u.random_date(d1, d2))
+      date = date.replace(" ", ":").replace("-", "/").split(' ')[0]
+      resource = str(choice(resources))
+      request = "GET " + resource
+      # response = str(random.choice(http_responses)) # [200, 400, 403, 404, 500]
+      response = str(u.weighted_choice([	
 				(http_responses[0], 90), 
 				(http_responses[1], 10), 
 				(http_responses[2], 40), 
@@ -77,9 +83,9 @@ while True:
 				(http_responses[4], 50)
 			     ]))
 
-    response_bytes = str(randint(2000,5000))
-    # referer = str(choice(referers))
-    referer = str(u.weighted_choice([
+      response_bytes = str(randint(2000,5000))
+      # referer = str(choice(referers))
+      referer = str(u.weighted_choice([
 			(referers[0], 20),
                         (referers[1], 40),
                         (referers[2], 50),
@@ -93,20 +99,23 @@ while True:
                         (referers[10],15),
                         (referers[11],15),
 			]))
-    user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
+      user_agent = str(choice(choice(all_user_agents))).split("\n")[0]
 
-    # print ip, date, request, response, response_bytes, referer, user_agent
-    if (rows % 10 == 0): # row count mod 10 is 0
-      f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
-      rows += 1
-      current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
-      f = open(current_time + '.log', 'w')
-    else: 
-      f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
-      rows += 1
+      # print ip, date, request, response, response_bytes, referer, user_agent
+      if (rows % 10 == 0): # row count mod 10 is 0
+        f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+        rows += 1
+        current_time = strftime("%Y-%m-%d_%H:%M:%S", gmtime())
+        f = open(current_time + '.log', 'w')
+      else: 
+        f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+        rows += 1
 
-  except KeyboardInterrupt:
-    print 'KeyboradInterrupt exception raised: Generating out_log...'
-    f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
-    sys.exit()
+    except KeyboardInterrupt:
+      print 'KeyboradInterrupt exception raised: Generating out_log...'
+      f.write(ip + ' -' + ' - '  +'[' + date + ']' + ' ' + '"' + request + '"' + ' ' + response + ' ' + response_bytes + ' ' + '"' + referer + '"' + ' ' + '"' + user_agent + '"' + '\n')
+      sys.exit()
+
+if __name__ == "__main__":
+  main(sys.argv[1:])
 
