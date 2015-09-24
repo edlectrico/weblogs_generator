@@ -7,8 +7,14 @@ A simple weblog generator Python script. The project contains:
 
 To generate the random weblogs just run:
 ```
-$ python weblog_generator.py
+$ python weblog_generator.py <mm/dd/yyyy>
 ```
+For example:
+```
+$ python weblog_generator.py 09/24/2015
+```
+If you want to use random dates (otherwise it uses random ours of the given date) uncomment the lines under the referer array declaration). 
+
 This command will generate an out_log.log file. Then execute:
 ```
 $ python weblog_formatter.py
